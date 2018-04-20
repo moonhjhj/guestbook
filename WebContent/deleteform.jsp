@@ -6,7 +6,7 @@
 <body>
 <!-- 	<form method="post" action="delete.jsp"> -->
 	<form method="post" action="/guestbook/gb">
-	<input type='hidden' name="id" value="">
+	<input type='hidden' name="id" value="delete">
 	<table>
 		<tr>
 			<td>비밀번호</td>

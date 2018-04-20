@@ -124,11 +124,12 @@ public class GuestbookDao {
 
 	}
 	
-	public void delete() {
+	public void delete(int no) {
 
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		int count;
 
 		try {
@@ -137,14 +138,14 @@ public class GuestbookDao {
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
-			String query = "";
+			String query = "delete from guestbook where no = ?";
 			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
 			
 			
-			
-			count = pstmt.executeUpdate();
 
-			System.out.println(count + "건 삭제");
+			System.out.println("삭제 완료");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("error: 드라이버 로딩 실패 - " + e);
@@ -165,6 +166,5 @@ public class GuestbookDao {
 			}
 		}
 
-	
 	}
 }

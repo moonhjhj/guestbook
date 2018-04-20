@@ -70,8 +70,11 @@ public class GuestbookController extends HttpServlet {
 		} else if ("delete".equals(cmd)) {
 
 		} else {
+			String no = request.getParameter("no");
+			
 			 GuestbookDao dao = new GuestbookDao();
-			 List<GuestbookVo> list = dao.getList();
+			 
+//			 List<GuestbookVo> list = dao.delete(no);
 			
 			 request.setAttribute("list", list);
 			
