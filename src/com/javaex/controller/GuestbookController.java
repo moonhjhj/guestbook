@@ -1,10 +1,6 @@
 package com.javaex.controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -42,47 +38,69 @@ public class GuestbookController extends HttpServlet {
 			System.out.println("삽입 완료");
 			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 			rd.forward(request, response);
-			
-//
-//			DateFormat reg_date = new SimpleDateFormat("yy/MM/dd");
-//			Date d;
-//			try {
-//				d = (Date) reg_date.parse("yy/MM/dd");
-//
-//				GuestbookVo vo = new GuestbookVo(name, password, content, d);
-//				// GuestbookVo vo = new GuestbookVo(name, password, content, reg_date);
-//				GuestbookDao dao = new GuestbookDao();
-//				dao.insert(vo);
-//				List<GuestbookVo> list = dao.getList();
-//
-//				request.setAttribute("list", list);
-//				// RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
-//				// rd.forward(request, response);
-//
-//				System.out.println("삽입 완료");
-//				response.sendRedirect("/guestbook/gb");
-//
-//			} catch (ParseException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+
+			//
+			// DateFormat reg_date = new SimpleDateFormat("yy/MM/dd");
+			// Date d;
+			// try {
+			// d = (Date) reg_date.parse("yy/MM/dd");
+			//
+			// GuestbookVo vo = new GuestbookVo(name, password, content, d);
+			// // GuestbookVo vo = new GuestbookVo(name, password, content, reg_date);
+			// GuestbookDao dao = new GuestbookDao();
+			// dao.insert(vo);
+			// List<GuestbookVo> list = dao.getList();
+			//
+			// request.setAttribute("list", list);
+			// // RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+			// // rd.forward(request, response);
+			//
+			// System.out.println("삽입 완료");
+			// response.sendRedirect("/guestbook/gb");
+			//
+			// } catch (ParseException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+
+		} else if ("deleteform".equals(cmd)) {
+			String no = request.getParameter("no");
+			request.setAttribute("no", no);
+
+			RequestDispatcher rd = request.getRequestDispatcher("deleteform.jsp");
+			rd.forward(request, response);
 
 		} else if ("delete".equals(cmd)) {
-
-		} else {
 			String no = request.getParameter("no");
-			
-			 GuestbookDao dao = new GuestbookDao();
-			 
-//			 List<GuestbookVo> list = dao.delete(no);
-			
-			 request.setAttribute("list", list);
+			String password = request.getParameter("password");
+
+			GuestbookDao dao = new GuestbookDao();
+			List<GuestbookVo> list = dao.getList();
+
+			for (GuestbookVo vo : list) {
+				if (vo.getNo() == Integer.parseInt(no)) {
+					if (vo.getPassword().equals(password)) {
+						dao.delete(Integer.parseInt(no));
+
+					}
+				}
+			}
+			list = dao.getList();
+			request.setAttribute("list", list);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
 			rd.forward(request, response);
 
+		}else {
+			GuestbookDao dao = new GuestbookDao();
+			List<GuestbookVo> list = dao.getList();
+			request.setAttribute("list", list);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("list.jsp");
+			rd.forward(request, response);
+			
 		}
-		
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
